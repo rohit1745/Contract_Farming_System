@@ -1,17 +1,20 @@
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-   <%@ page import="java.sql.*,com.connection.ConnectionDB" %>
-
+    <%@ page import="java.sql.*,com.connection.ConnectionDB" %>
 <%
-HttpSession session1 = request.getSession(false);
+HttpSession session1 = request.getSession();
 Integer userId = (Integer) session1.getAttribute("userId");
 
 String name="", email="", phone="", address="";
 
-// 👉 Farmer profile fetch
 if(userId != null){
-    Connection con = ConnectionDB.connect();
+
+    Connection con = DriverManager.getConnection(
+        "jdbc:mysql://localhost:3306/contract_farming_db",
+        "root",
+        ""
+    );
 
     PreparedStatement ps = con.prepareStatement("SELECT * FROM farmer WHERE Id=?");
     ps.setInt(1, userId);
@@ -27,20 +30,42 @@ if(userId != null){
 }
 %>
 
-<!-- 🔍 DEBUG -->
-<h3 style="color:red;">UserId = <%= userId %></h3>
 
 <%
-Connection con2 = ConnectionDB.connect();
+Connection con = ConnectionDB.connect();
+
 PreparedStatement psCrop = null;
 ResultSet rsCrop = null;
 
 if(userId != null){
-    psCrop = con2.prepareStatement("SELECT * FROM crops WHERE farmer_id=?");
+    psCrop = con.prepareStatement("SELECT * FROM crops WHERE farmer_id=?");
     psCrop.setInt(1, userId);
     rsCrop = psCrop.executeQuery();
 }
-%>    
+%>
+
+<tbody>
+<%
+while(rsCrop.next()){
+%>
+<tr>
+    <td>🌾 <%= rsCrop.getString("crop_name") %></td>
+    <td><%= rsCrop.getString("price") %></td>
+    <td>
+        <span class="status active">
+            <%= rsCrop.getString("status") %>
+        </span>
+    </td>
+    <td><%= rsCrop.getString("HarvestDate") %></td>
+    <td>
+        <button class="action-btn edit">Edit</button>
+        <button class="action-btn delete">Delete</button>
+    </td>
+</tr>
+<%
+}
+%>
+</tbody> 
     
 <!DOCTYPE html>
 <html lang="en">
@@ -242,8 +267,8 @@ if(userId != null){
                 hasData = true;
         %>
             <tr>
-                <td>🌾 <%= rsCrop.getString("crop_name") %></td>
-                <td><%= rsCrop.getInt("price") %></td>
+                <td>🌾 <%= rsCrop.getString("CropName") %></td>
+                <td><%= rsCrop.getInt("Price") %></td>
                 <td>
                     <span class="status active">
                         <%= rsCrop.getString("Status") %>
