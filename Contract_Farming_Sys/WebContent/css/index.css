@@ -212,7 +212,7 @@ header {
 /* --- Hero Section --- */
 .hero {
     height: 100vh;
-    background-image: url('imgs/background%20image.jpg'); /* Local background image */
+    /*background-image: url('imgs/farm.jpg'); /* Local background image */*/
     background-size: cover;
     background-position: center;
     position: relative;
