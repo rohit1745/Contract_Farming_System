@@ -48,20 +48,7 @@ if(userId != null){
 <%
 while(rsCrop.next()){
 %>
-<tr>
-    <td>🌾 <%= rsCrop.getString("crop_name") %></td>
-    <td><%= rsCrop.getString("price") %></td>
-    <td>
-        <span class="status active">
-            <%= rsCrop.getString("status") %>
-        </span>
-    </td>
-    <td><%= rsCrop.getString("HarvestDate") %></td>
-    <td>
-        <button class="action-btn edit">Edit</button>
-        <button class="action-btn delete">Delete</button>
-    </td>
-</tr>
+
 <%
 }
 %>
@@ -248,7 +235,7 @@ while(rsCrop.next()){
             <!-- My Crops Page -->
            <div class="table-container">
     <table class="crops-table">
-        <thead>
+        <!-- <thead>
             <tr>
                 <th>Crop</th>
                 <th>Acres</th>
@@ -256,9 +243,9 @@ while(rsCrop.next()){
                 <th>Harvest Date</th>
                 <th>Actions</th>
             </tr>
-        </thead>
+        </thead> -->
 
-        <tbody>
+        <%-- <tbody>
         <%
         if(rsCrop != null){
             boolean hasData = false;
@@ -295,7 +282,7 @@ while(rsCrop.next()){
         }
         %>
         </tbody>
-
+ --%>
     </table>
 </div>
 
